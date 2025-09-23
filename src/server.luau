@@ -3,10 +3,11 @@ local net = require "@lune/net"
 local proc = require "@lune/process"
 local task = require "@lune/task"
 
-local dev_mode = proc.args[1] == "true" and true or false
+local dev_mode = proc.args[1] == "dev" and true or false
+local build_mode = proc.args[1] == "build" and true or false
+local serve_mode = proc.args[1] == "serve" and true or false
+assert(dev_mode or build_mode or serve_mode, "expected mode")
 
-local address = dev_mode and "http://127.0.0.1" or "https://0.0.0.0"
-local port = 8080
 
 local function build()
 	proc.exec("lune", { "run", "src/build" }, { cwd = proc.cwd, stdio = "forward" })
@@ -32,25 +33,33 @@ if dev_mode then
 	end)
 end
 
-build()
-print("Serving on " .. address .. ":" .. port)
+if build_mode then
+    build()
+end
 
-net.serve(port, {
-	address = address,
-	handleRequest = function(req)
-        if req.path:match("^/assets/") then
-            local fpath = req.path:gsub("^/",  "")
-            if fs.isFile(fpath) then
-                return {
-                    status = 200,
-                    body = fs.readFile(fpath)
-                }
+if serve_mode then
+    local address = dev_mode and "http://127.0.0.1" or "https://0.0.0.0"
+    local port = assert(tonumber(assert(proc.args[2], "expected port") :: any))
+
+    print("Serving on " .. address .. ":" .. port)
+
+    net.serve(port, {
+        address = address,
+        handleRequest = function(req)
+            if req.path:match("^/assets/") then
+                local fpath = req.path:gsub("^/",  "")
+                if fs.isFile(fpath) then
+                    return {
+                        status = 200,
+                        body = fs.readFile(fpath)
+                    }
+                end
+                return { status = 404 }
             end
-            return { status = 404 }
-        end
-		return {
-			status = 200,
-			body = fs.readFile("out/index.html")
-		}
-	end,
-})
+            return {
+                status = 200,
+                body = fs.readFile("out/index.html")
+            }
+        end,
+    })
+end

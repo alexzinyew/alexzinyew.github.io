@@ -18,22 +18,49 @@ return function()
 				h.h1 { style = "color: #f569cb; max-height: 20px" } {
 					"lilllllllllllllllith",
 				},
-				h.p() { h.em() { "she / her" } },
+				h.em() { "she / her" },
 			},
 
-			h.main { style = "" } {
+			h.main() {
+				h.p() {
+					"please call me " :: any,
+					h.span { style = "color: #f569cb" } { "lill" },
+					"though casually, as lillith is more of a formal name and\
+                    lilly is too endearing!",
+				},
 				h.p() {
 					"welcome to my page, here i show just about whatever but it\
-                    mostly acts as an introduction for myself",
+                    mostly acts as my" :: any,
+					h.a { href = "/me" } { "about me" },
 				},
-				h.p() {
-                    "please refer to me as lill. lillith is more of a formal name to me!"
+				h.div { style = "display: flex" } {
+					h.img {
+						src = "/assets/me.webp",
+						alt = "a blocky roblox avatar, with\
+                            black hair, black hat, long hair down below the shoulders,\
+                            brown plaid jacket, belt, and jeans",
+						style = "max-width: 50%; height: 50%"
+					} {},
+					h.div { style = "float: right; max-width: 50%" } {
+						h.p() {
+							"this is my roblox avatar on the left. i do some\
+                            development on roblox and small tooling projects.",
+						},
+						h.p() {
+							"i also have a thing for source engine. particularly portal 2\
+                            where i used to speedrun and also make mods for, some of which\
+                            are on a mod loader for portal 2 called" :: any,
+							h.a { href = "https://p2r3.com/spplice" } {
+								"spplice",
+							},
+						},
+					},
 				},
 			},
 
-			h.footer { style = "position: absolute; bottom: 0" } {
+			h.footer { style = "position: absolute; bottom: 10px" } {
 				"built on " .. os.date() .. " with " :: any,
-                h.a { href = "https://github.com/Nicell/htmluau/" } { "htmluau" }
+				h.a { href = "https://github.com/Nicell/htmluau/" } { "htmluau" },
 			},
 		},
 	}
