@@ -9,6 +9,8 @@ return function()
 			h.meta { charset = "utf-8" } {},
 			h.style() { font },
 			h.style() { "* { color: white }" },
+			h.meta { property = "og:title", content = "lillith page" } {},
+			h.meta { property = "og:type", content = "website" } {},
 		},
 		h.body {
 			style = 'font-family: "Source Code Pro"; display: table-cell;\
@@ -39,7 +41,7 @@ return function()
 						alt = "a blocky roblox avatar, with\
                             black hair, black hat, long hair down below the shoulders,\
                             brown plaid jacket, belt, and jeans",
-						style = "max-width: 50%; height: 50%"
+						style = "max-width: 50%; height: 50%",
 					} {},
 					h.div { style = "float: right; max-width: 50%" } {
 						h.p() {
